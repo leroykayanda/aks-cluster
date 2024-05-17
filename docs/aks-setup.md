@@ -1,3 +1,5 @@
+## AKS Setup Instructions
+
 **AKS cluser components**
 1.  AKS cluster
 2.  Vnet
@@ -9,7 +11,6 @@
 8. Prometheus and Grafana for metrics, dashboards and alerts
 
 
-## AKS Setup Instructions
 - set up a terraform cloud workspace named aks-dev.
 - Terraform needs to authenticate to azure to enable it to create resources. Create a service principal using the cli.
 
@@ -52,14 +53,16 @@ e.g
 
 - set the value of the cluster_created variable in aks/variable.ts to true. This will create resources that needed the cluster to be created first eg the argocd helm chart
 - run terraform apply
-- verify that
+
+
+**Verify that**
 
 1. An ingress exposes kibana and grafana. The ingress should have certificates from letsencrypt.
 
 `k get certificaterequest --all-namespaces`
 `k get certificate --all-namespaces`
 
-3. You can log in to kibana using the default elastic user and the password set in the variable `elastic_password` and can see kubernetes logs.
-4. You can log in to grafana using the password set in the variable `grafana_password`. You should be able to see a kubernetes dashboard with various metrics as well as alerts. We use the grafana terraform provider to create alerts.
+2. You can log in to kibana using the default elastic user and the password set in the variable `elastic_password` and can see kubernetes logs.
+3. You can log in to grafana using the password set in the variable `grafana_password`. You should be able to see a kubernetes dashboard with various metrics as well as alerts. We use the grafana terraform provider to create alerts.
 
 
