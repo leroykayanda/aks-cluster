@@ -1,0 +1,13 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: payments
+  namespace: pay
+subjects:
+  - kind: Group
+    name: 1729bca8-3df7-4ae8-9448-31cefa79b294
+    namespace: pay
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: rbac.authorization.k8s.io
