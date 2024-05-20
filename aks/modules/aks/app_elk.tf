@@ -62,6 +62,10 @@ resource "helm_release" "elastic" {
     EOF
   ]
 
+  depends_on = [
+    kubernetes_namespace.elk
+  ]
+
 }
 
 # kibana helm chart

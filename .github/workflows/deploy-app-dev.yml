@@ -1,0 +1,22 @@
+name: Deploy Development
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-app-image:
+    uses: ./.github/workflows/build-app.yml
+    with:
+      DOCKERFILE: demo-app/Dockerfile
+    secrets:
+      ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
+      ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+      ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+
+  # deploy-app-infra:
+  #   uses: ./.github/workflows/deploy-infra.yml
+  #   with:
+  #     TERAFORM_WORKSPACE: dev
+  #     WORKING_DIRECTORY: demo-app/terraform
+  #   secrets: inherit

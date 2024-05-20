@@ -1,0 +1,42 @@
+name: Build-App-Image
+
+on:
+  workflow_call:
+    inputs:
+      DOCKERFILE:
+        required: true
+        type: string
+    secrets:
+      ACR_USERNAME:
+        required: true
+      ACR_PASSWORD:
+        required: true
+      ACR_LOGIN_SERVER:
+        required: true
+
+
+env:
+  DOCKERFILE: ${{ inputs.DOCKERFILE }}
+
+jobs:
+  build_app_image:
+    name: build_app
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and Push to ACR
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: latest, ${{ github.sha }}
+          file: ${{ env.DOCKERFILE }}

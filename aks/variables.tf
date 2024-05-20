@@ -54,6 +54,7 @@ variable "default_node_pool" {
       os_disk_size_gb           = 100
       agents_availability_zones = [1, 2]
       agents_count              = null
+      agents_max_pods           = 50
     }
   }
 }

@@ -15,6 +15,14 @@ resource "azurerm_role_assignment" "list_credentials" {
   principal_id         = azuread_group.admins.object_id
 }
 
+# give admins access to key vault
+
+resource "azurerm_role_assignment" "key_vault" {
+  scope                = data.azurerm_subscription.sub.id
+  role_definition_name = "Key Vault Administrator"
+  principal_id         = azuread_group.admins.object_id
+}
+
 # add super-user access to admin group
 
 # resource "azurerm_role_assignment" "aks_cluster_admin_assignment" {

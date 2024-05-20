@@ -21,6 +21,7 @@ module "aks" {
   agents_size                                       = var.default_node_pool["agents_size"]
   enable_auto_scaling                               = var.default_node_pool["enable_auto_scaling"]
   os_disk_size_gb                                   = var.default_node_pool["os_disk_size_gb"]
+  agents_max_pods                                   = var.default_node_pool["agents_max_pods"]
   auto_scaler_profile_expander                      = var.auto_scaler_profile_expander
   agents_pool_max_surge                             = "10%"
   net_profile_service_cidr                          = var.net_profile_service_cidr
@@ -34,6 +35,8 @@ module "aks" {
   network_plugin                                    = var.network_plugin
   net_profile_outbound_type                         = var.net_profile_outbound_type
   temporary_name_for_rotation                       = "tempnodepool"
+  oidc_issuer_enabled                               = true
+  workload_identity_enabled                         = true
 
   brown_field_application_gateway_for_ingress = {
     id        = azurerm_application_gateway.gateway.id

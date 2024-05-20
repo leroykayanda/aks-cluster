@@ -463,7 +463,7 @@ resource "grafana_rule_group" "container_restarts" {
       }
 
       datasource_uid = "PBFA97CFB590B2093"
-      model          = "{\"editorMode\":\"code\",\"expr\":\"sum(increase(container_oom_events_total[5m])) by (namespace, pod) \",\"instant\":true,\"intervalMs\":1000,\"legendFormat\":\"__auto\",\"maxDataPoints\":43200,\"range\":false,\"refId\":\"A\"}"
+      model          = "{\"editorMode\":\"code\",\"expr\":\"sum(increase(kube_pod_container_status_restarts_total[5m])) by (namespace, pod)\",\"instant\":true,\"intervalMs\":1000,\"legendFormat\":\"__auto\",\"maxDataPoints\":43200,\"range\":false,\"refId\":\"A\"}"
     }
     data {
       ref_id = "B"
@@ -494,6 +494,8 @@ resource "grafana_rule_group" "container_restarts" {
     annotations = {
       __dashboardUid__ = "cdlpol5hdssg0c"
       __panelId__      = "44"
+      description      = ""
+      runbook_url      = ""
       summary          = "Container - {{labels. pod}}\nNamespace - {{labels. namespace}}"
     }
     labels = {
@@ -502,6 +504,7 @@ resource "grafana_rule_group" "container_restarts" {
     is_paused = false
   }
 }
+
 
 resource "grafana_rule_group" "pv_almost_full" {
   count = var.cluster_created ? 1 : 0
