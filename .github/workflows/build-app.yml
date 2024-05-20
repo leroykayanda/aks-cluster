@@ -42,5 +42,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.DOCKERFILE }}:${{ github.sha }}
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.REGISTRY_NAME }}:${{ github.sha }}
           file: ${{ env.DOCKERFILE }}
