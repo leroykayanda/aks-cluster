@@ -20,7 +20,8 @@ on:
 
 env:
   DOCKERFILE: ${{ inputs.DOCKERFILE }}
-  REGISTRY_NAME: ${{ inputs.REGISTRY_NAME }}
+  IMAGE_TAG_1: ${{ secrets.ACR_LOGIN_SERVER }}/${{ inputs.REGISTRY_NAME }}:${{ github.sha }}
+  IMAGE_TAG_2: ${{ secrets.ACR_LOGIN_SERVER }}/${{ inputs.REGISTRY_NAME }}:latest
 
 jobs:
   build_app_image:
@@ -42,5 +43,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.REGISTRY_NAME }}:${{ github.sha }}
+          tags: ${{ env.IMAGE_TAG_1 }}, ${{ env.IMAGE_TAG_2 }}
           file: ${{ env.DOCKERFILE }}
