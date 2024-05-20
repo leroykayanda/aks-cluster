@@ -15,9 +15,9 @@ jobs:
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
 
-  # deploy-app-infra:
-  #   uses: ./.github/workflows/deploy-infra.yml
-  #   with:
-  #     TERAFORM_WORKSPACE: dev
-  #     WORKING_DIRECTORY: demo-app/terraform
-  #   secrets: inherit
+  deploy-app-infra:
+    uses: ./.github/workflows/deploy-infra.yml
+    with:
+      TERAFORM_WORKSPACE: dev
+      WORKING_DIRECTORY: demo-app/terraform
+    secrets: inherit
