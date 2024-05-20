@@ -6,6 +6,9 @@ on:
       DOCKERFILE:
         required: true
         type: string
+      REGISTRY_NAME:
+        required: true
+        type: string
     secrets:
       ACR_USERNAME:
         required: true
@@ -17,6 +20,7 @@ on:
 
 env:
   DOCKERFILE: ${{ inputs.DOCKERFILE }}
+  REGISTRY_NAME: ${{ inputs.REGISTRY_NAME }}
 
 jobs:
   build_app_image:
@@ -38,5 +42,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: latest, ${{ github.sha }}
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.DOCKERFILE }}:${{ github.sha }}
           file: ${{ env.DOCKERFILE }}

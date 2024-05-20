@@ -9,6 +9,7 @@ jobs:
     uses: ./.github/workflows/build-app.yml
     with:
       DOCKERFILE: demo-app/Dockerfile
+      REGISTRY_NAME: devdemoapp
     secrets:
       ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
