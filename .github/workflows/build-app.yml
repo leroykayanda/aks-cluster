@@ -17,7 +17,6 @@ on:
       ACR_LOGIN_SERVER:
         required: true
 
-
 env:
   DOCKERFILE: ${{ inputs.DOCKERFILE }}
   IMAGE_TAG_1: ${{ secrets.ACR_LOGIN_SERVER }}/${{ inputs.REGISTRY_NAME }}:${{ github.sha }}
