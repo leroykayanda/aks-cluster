@@ -9,3 +9,7 @@ output "zone_name" {
 output "gateway_ip" {
   value = module.aks.gateway_ip
 }
+
+output "kubelet_identity" {
+  value = module.aks.kubelet_identity
+}

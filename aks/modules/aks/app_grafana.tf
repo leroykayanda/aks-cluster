@@ -93,7 +93,7 @@ dashboards:
         ${indent(8, file("${path.module}/dashboard.json"))}
 grafana.ini:
   server:
-    domain: "${var.grafana["dns_name"]}.${var.grafana["dns_zone"]}"
+    domain: "${var.grafana["dns_name"]}.${var.dns_zone}"
     root_url: "%(protocol)s://%(domain)s/"
 alerting: 
   contactpoints.yaml:
@@ -128,7 +128,7 @@ EOF
 resource "azurerm_dns_a_record" "grafana" {
   count               = var.cluster_created ? 1 : 0
   name                = var.grafana["dns_name"]
-  zone_name           = var.grafana["dns_zone"]
+  zone_name           = var.dns_zone
   resource_group_name = var.resource_group_name
   ttl                 = 300
   target_resource_id  = azurerm_public_ip.ip.id
@@ -174,12 +174,12 @@ resource "kubernetes_ingress_v1" "grafana" {
 
   spec {
     tls {
-      hosts       = ["${var.grafana["dns_name"]}.${var.grafana["dns_zone"]}"]
+      hosts       = ["${var.grafana["dns_name"]}.${var.dns_zone}"]
       secret_name = "grafana-tls-cert"
     }
 
     rule {
-      host = "${var.grafana["dns_name"]}.${var.grafana["dns_zone"]}"
+      host = "${var.grafana["dns_name"]}.${var.dns_zone}"
 
       http {
         path {

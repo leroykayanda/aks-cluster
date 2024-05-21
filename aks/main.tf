@@ -50,6 +50,9 @@ module "aks" {
   prometheus                        = var.prometheus[var.env]
   slack_incoming_webhook_url        = var.slack_incoming_webhook_url
   grafana_password                  = var.grafana_password
+  dns_zone                          = var.dns_zone
+  argocd                            = var.argocd[var.env]
+  argo_ssh_private_key              = var.argo_ssh_private_key
 
   providers = {
     kubernetes = kubernetes

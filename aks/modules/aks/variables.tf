@@ -45,6 +45,10 @@ variable "automatic_channel_upgrade" {
   type = string
 }
 
+variable "dns_zone" {
+  type = string
+}
+
 variable "log_analytics_workspace_enabled" {
 }
 
@@ -142,4 +146,15 @@ variable "letsencrypt_environment" {
 
 variable "grafana_password" {
   type = string
+}
+
+# argocd
+
+variable "argocd" {
+  type = any
+}
+
+variable "argo_ssh_private_key" {
+  description = "The SSH private key"
+  type        = string
 }

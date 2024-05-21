@@ -10,6 +10,11 @@ variable "env" {
   description = "The environment i.e prod, dev etc"
 }
 
+variable "dns_zone" {
+  type    = string
+  default = "azure.rentrahisi.co.ke"
+}
+
 #vpc
 variable "address_spaces" {
   type = map(list(string))
@@ -232,7 +237,6 @@ variable "kibana" {
   default = {
     "dev" = {
       dns_name = "kibana"
-      dns_zone = "azure.rentrahisi.co.ke"
     }
   }
 }
@@ -252,79 +256,28 @@ variable "grafana" {
   default = {
     "dev" = {
       dns_name         = "grafana"
-      dns_zone         = "azure.rentrahisi.co.ke"
       pv_storage       = "1Gi"
       storageClassName = "default"
     }
   }
 }
 
-# #k8s
+# ArgoCD
 
+variable "argocd" {
+  type = any
+  default = {
+    "dev" = {
+      dns_name  = "dev-argocd"
+      argo_repo = "git@github.com:leroykayanda"
+    }
+  }
+}
 
-# variable "argo_load_balancer_attributes" {
-#   type = map(string)
-#   default = {
-#     "dev"  = "access_logs.s3.enabled=true,access_logs.s3.bucket=dev-rentrahisi-eks-cluster-alb-access-logs,idle_timeout.timeout_seconds=300"
-#     "prod" = ""
-#   }
-# }
-
-# variable "argo_target_group_attributes" {
-#   type = map(string)
-#   default = {
-#     "dev"  = "deregistration_delay.timeout_seconds=5"
-#     "prod" = ""
-#   }
-# }
-
-# variable "argo_tags" {
-#   type = map(string)
-#   default = {
-#     "dev"  = "Environment=dev,Team=devops"
-#     "prod" = ""
-#   }
-# }
-
-# variable "company_name" {
-#   type        = string
-#   description = "To make ELB access log bucket name unique"
-#   default     = "rentrahisi"
-# }
-
-# #argoCD
-
-# variable "zone_id" {
-#   type        = string
-#   default     = "Z10421303ISFAWMPOGQET"
-#   description = "Route53 zone to create ArgoCD dns name in"
-# }
-
-# variable "certificate_arn" {
-#   type        = string
-#   default     = "arn:aws:acm:eu-west-1:735265414519:certificate/eab25873-8e9c-4895-bd1a-80a1eac6a09e"
-#   description = "ACM certificate to be used by ingress"
-# }
-
-# variable "argo_domain_name" {
-#   type        = map(string)
-#   description = "domain name for argocd ingress"
-#   default = {
-#     "dev"  = "dev-argo.rentrahisi.co.ke"
-#     "prod" = ""
-#   }
-# }
-
-# variable "argo_ssh_private_key" {
-#   description = "The SSH private key. ArgoCD uses this to authenticate to the repos in your github org"
-#   type        = string
-# }
-
-# variable "argo_repo" {
-#   type        = string
-#   description = "repo where manifest files needed by argocd are stored"
-#   default     = "git@github.com:leroykayanda"
-# }
+variable "argo_ssh_private_key" {
+  description = "The SSH private key. ArgoCD uses this to authenticate to the repos in your github org"
+  type        = string
+}
 
 # variable "argo_slack_token" {
 #   type        = string

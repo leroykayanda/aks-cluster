@@ -1,9 +1,5 @@
-replicaCount: 1
 serviceAccountName: demo-app
 secretName: demo-app
-vaultUrl: https://dev-demo-app.vault.azure.net/
-minReplicas: 1
-maxReplicas: 2
 
 podAnnotations:
   secret.reloader.stakater.com/reload: demo-app
@@ -14,10 +10,6 @@ podMatchLabels:
 podAllLabels:
   app: demo-app
   azure.workload.identity/use: "true"
-
-image:
-  repository: nginx
-  tag: latest
 
 service:
   type: ClusterIP
@@ -32,14 +24,6 @@ readinessProbe:
   successThreshold: 2
   failureThreshold: 2
 
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 200m
-    memory: 256Mi
-
 ingress:
   enabled: true
   annotations:
@@ -48,4 +32,3 @@ ingress:
     appgw.ingress.kubernetes.io/request-timeout: "30"
     appgw.ingress.kubernetes.io/ssl-redirect: "true"  
     cert-manager.io/cluster-issuer: "letsencrypt-issuer"
-  host: "demo-app.azure.rentrahisi.co.ke"

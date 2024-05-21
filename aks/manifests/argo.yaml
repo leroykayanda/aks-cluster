@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-demo-app
+  namespace: demo-app
+  labels:
+    service: demo-app
+    env: dev
+spec:
+  source:
+    chart: app
+    repoURL: git@github.com:leroykayanda/aks-cluster.git
+    path: "demo-app/helm-charts/app"
+    targetRevision: main
+    helm:
+      releaseName: demo-app
+      valueFiles:
+      - ../base-values.yaml
+      - ../dev-values.yaml
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: demo-app
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=false
+      - Validate=true
+      - PrunePropagationPolicy=foreground
+    automated:
+      prune: true
+      self_heal: true
+      allow_empty: false
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas

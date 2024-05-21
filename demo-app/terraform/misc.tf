@@ -77,3 +77,11 @@ resource "azurerm_container_registry" "acr" {
   sku                 = var.acr_sku[var.env]
   admin_enabled       = var.acr_admin_enabled
 }
+
+# allow AKS to access ACR
+resource "azurerm_role_assignment" "acr" {
+  principal_id                     = data.terraform_remote_state.aks.outputs.kubelet_identity
+  role_definition_name             = "AcrPull"
+  scope                            = azurerm_container_registry.acr.id
+  skip_service_principal_aad_check = true
+}

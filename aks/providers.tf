@@ -6,7 +6,7 @@ provider "azuread" {
 }
 
 provider "grafana" {
-  url                  = "https://${var.grafana[var.env]["dns_name"]}.${var.grafana[var.env]["dns_zone"]}"
+  url                  = "https://${var.grafana[var.env]["dns_name"]}.${var.dns_zone}"
   auth                 = "${var.grafana_user}:${var.grafana_password}"
   insecure_skip_verify = true
 }

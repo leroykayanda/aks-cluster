@@ -111,7 +111,7 @@ resource "helm_release" "kibana" {
 resource "azurerm_dns_a_record" "kibana" {
   count               = var.cluster_created ? 1 : 0
   name                = var.kibana["dns_name"]
-  zone_name           = var.kibana["dns_zone"]
+  zone_name           = var.dns_zone
   resource_group_name = var.resource_group_name
   ttl                 = 300
   target_resource_id  = azurerm_public_ip.ip.id
@@ -157,12 +157,12 @@ resource "kubernetes_ingress_v1" "kibana" {
 
   spec {
     tls {
-      hosts       = ["${var.kibana["dns_name"]}.${var.kibana["dns_zone"]}"]
+      hosts       = ["${var.kibana["dns_name"]}.${var.dns_zone}"]
       secret_name = "tls-cert"
     }
 
     rule {
-      host = "${var.kibana["dns_name"]}.${var.kibana["dns_zone"]}"
+      host = "${var.kibana["dns_name"]}.${var.dns_zone}"
 
       http {
         path {
