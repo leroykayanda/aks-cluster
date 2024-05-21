@@ -9,6 +9,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.cluster.kube_admin_config.0.cluster_ca_certificate)
 }
 
-# provider "argocd" {
-#   server_addr = var.argo_server[var.env]
-# }
+provider "argocd" {
+  server_addr = var.argocd[var.env]["server"]
+  insecure    = true
+}

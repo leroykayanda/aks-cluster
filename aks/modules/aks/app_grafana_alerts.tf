@@ -57,7 +57,7 @@ resource "grafana_rule_group" "node_memory" {
       summary          = "Node - {{labels. instance}}"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }
@@ -120,7 +120,7 @@ resource "grafana_rule_group" "node_cpu" {
       summary          = "Node - {{labels. instance}}"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }
@@ -183,7 +183,7 @@ resource "grafana_rule_group" "node_disk" {
       summary          = "Node - {{labels. instance}}"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }
@@ -245,7 +245,7 @@ resource "grafana_rule_group" "node_condition" {
       __panelId__      = "63"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }
@@ -308,7 +308,7 @@ resource "grafana_rule_group" "container_mem_limit_use" {
       summary          = "Container - {{labels. container}}"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }
@@ -371,7 +371,7 @@ resource "grafana_rule_group" "container_cpu_limit_use" {
       summary          = "Container - {{labels. container}}"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }
@@ -434,7 +434,7 @@ resource "grafana_rule_group" "container_oom" {
       summary          = "Container - {{labels. pod}}\nNamespace - {{labels. namespace}}"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }
@@ -499,7 +499,7 @@ resource "grafana_rule_group" "container_restarts" {
       summary          = "Container - {{labels. pod}}\nNamespace - {{labels. namespace}}"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }
@@ -563,7 +563,7 @@ resource "grafana_rule_group" "pv_almost_full" {
       summary          = "PVC - {{labels. persistentvolumeclaim}}"
     }
     labels = {
-      environment = var.env
+
     }
     is_paused = false
   }

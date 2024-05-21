@@ -85,3 +85,52 @@ resource "azurerm_role_assignment" "acr" {
   scope                            = azurerm_container_registry.acr.id
   skip_service_principal_aad_check = true
 }
+
+# argocd app
+
+resource "argocd_application" "argo" {
+  metadata {
+    name        = "${var.env}-${var.service}"
+    namespace   = "argocd"
+    annotations = var.argo_annotations[var.env]
+    labels = {
+      service = var.service
+      env     = var.env
+    }
+  }
+
+  spec {
+    source {
+      repo_url        = var.argocd[var.env]["repo_url"]
+      target_revision = var.argocd[var.env]["target_revision"]
+      path            = var.argocd[var.env]["path"]
+      helm {
+        release_name = var.argocd[var.env]["release_name"]
+        value_files  = var.argocd[var.env]["value_files"]
+      }
+    }
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = var.service
+    }
+    sync_policy {
+      automated {
+        prune       = true
+        self_heal   = true
+        allow_empty = false
+      }
+      sync_options = [
+        "Validate=true",
+        "CreateNamespace=false",
+        "PrunePropagationPolicy=foreground"
+      ]
+    }
+
+    ignore_difference {
+      group         = "apps"
+      kind          = "Deployment"
+      json_pointers = ["/spec/replicas"]
+    }
+  }
+}
+
