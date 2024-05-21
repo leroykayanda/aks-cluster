@@ -9,10 +9,13 @@
 6. Azure AD admins group
 7. ELK for logs
 8. Prometheus and Grafana for metrics, dashboards and alerts
+9. Argocd for CICD. This installs the core argocd helm chart which comes bundled with argocd notifications. We also install the argocd image updater which triggers deployments when an image is pushed to ECR. Argocd is exposed via ingress.
+10. External secrets helm chart and reloader to automatically restart pods when a secret is added or modified.
+11. A DNS zone
 
-
-- set up a terraform cloud workspace named aks-dev.
-- Terraform needs to authenticate to azure to enable it to create resources. Create a service principal using the cli.
+**Setup**
+ - Set up a terraform cloud workspace named aks-dev.  
+ - Terraform needs to authenticate to azure to enable it to create resources. Create a service principal using the cli.
 
     `az ad sp create-for-rbac --name terraform-service-principal --role owner --scopes /subscriptions/<SubscriptionID>`
 
@@ -26,7 +29,7 @@
 
 - Clone this repo
 - Navigate to the aks folder
-- set up aks/backend.tf
+- set up backend.tf
 - set up these environment variables in terraform cloud.
 
 1. letsencrypt_email
@@ -57,12 +60,13 @@ e.g
 
 **Verify that**
 
-1. An ingress exposes kibana and grafana. The ingress should have certificates from letsencrypt.
+1. An ingress exposes argocd, kibana and grafana. The ingress should have certificates from letsencrypt.
 
 `k get certificaterequest --all-namespaces`
 `k get certificate --all-namespaces`
 
 2. You can log in to kibana using the default elastic user and the password set in the variable `elastic_password` and can see kubernetes logs.
-3. You can log in to grafana using the password set in the variable `grafana_password`. You should be able to see a kubernetes dashboard with various metrics as well as alerts. We use the grafana terraform provider to create alerts.
+3. You can log in to grafana using the password set in the variable `grafana_password`. You should be able to see a kubernetes dashboard with various metrics as well as alerts. We use the grafana terraform provider to create alerts. Test to ensure you are able to receive alerts.
+5. You can log in to ArgoCD with the username admin and the password below
 
-
+``kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode``
