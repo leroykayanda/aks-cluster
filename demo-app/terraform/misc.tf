@@ -154,3 +154,21 @@ resource "kubernetes_secret" "tls" {
   }
 }
 
+# argocd image updater secret
+
+resource "kubernetes_secret" "argocd_image_updater_acr" {
+  metadata {
+    name      = "argocd-image-updater-acr-${var.service}"
+    namespace = "argocd"
+  }
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "${azurerm_container_registry.acr.login_server}" = {
+          auth = base64encode("${azurerm_container_registry.acr.admin_username}:${azurerm_container_registry.acr.admin_password}")
+        }
+      }
+    })
+  }
+}

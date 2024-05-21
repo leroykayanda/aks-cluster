@@ -53,6 +53,8 @@ module "aks" {
   dns_zone                          = var.dns_zone
   argocd                            = var.argocd[var.env]
   argo_ssh_private_key              = var.argo_ssh_private_key
+  argo_slack_token                  = var.argo_slack_token
+  argocd_image_updater_values       = var.argocd_image_updater_values
 
   providers = {
     kubernetes = kubernetes

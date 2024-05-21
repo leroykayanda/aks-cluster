@@ -54,7 +54,6 @@ resource "grafana_rule_group" "node_memory" {
       __panelId__      = "4"
       description      = ""
       runbook_url      = ""
-      summary          = "Node - {{labels. instance}}"
     }
     labels = {
 
@@ -117,7 +116,6 @@ resource "grafana_rule_group" "node_cpu" {
     annotations = {
       __dashboardUid__ = "cdlpol5hdssg0c"
       __panelId__      = "6"
-      summary          = "Node - {{labels. instance}}"
     }
     labels = {
 
@@ -180,7 +178,6 @@ resource "grafana_rule_group" "node_disk" {
     annotations = {
       __dashboardUid__ = "cdlpol5hdssg0c"
       __panelId__      = "7"
-      summary          = "Node - {{labels. instance}}"
     }
     labels = {
 
@@ -305,7 +302,6 @@ resource "grafana_rule_group" "container_mem_limit_use" {
     annotations = {
       __dashboardUid__ = "cdlpol5hdssg0c"
       __panelId__      = "52"
-      summary          = "Container - {{labels. container}}"
     }
     labels = {
 
@@ -368,7 +364,6 @@ resource "grafana_rule_group" "container_cpu_limit_use" {
     annotations = {
       __dashboardUid__ = "cdlpol5hdssg0c"
       __panelId__      = "51"
-      summary          = "Container - {{labels. container}}"
     }
     labels = {
 
@@ -431,7 +426,6 @@ resource "grafana_rule_group" "container_oom" {
     annotations = {
       __dashboardUid__ = "cdlpol5hdssg0c"
       __panelId__      = "42"
-      summary          = "Container - {{labels. pod}}\nNamespace - {{labels. namespace}}"
     }
     labels = {
 
@@ -496,7 +490,6 @@ resource "grafana_rule_group" "container_restarts" {
       __panelId__      = "44"
       description      = ""
       runbook_url      = ""
-      summary          = "Container - {{labels. pod}}\nNamespace - {{labels. namespace}}"
     }
     labels = {
 
@@ -560,11 +553,70 @@ resource "grafana_rule_group" "pv_almost_full" {
     annotations = {
       __dashboardUid__ = "cdlpol5hdssg0c"
       __panelId__      = "36"
-      summary          = "PVC - {{labels. persistentvolumeclaim}}"
     }
     labels = {
 
     }
+    is_paused = false
+  }
+}
+
+resource "grafana_rule_group" "pod_not_ready" {
+  count = var.cluster_created ? 1 : 0
+  depends_on = [
+    helm_release.grafana
+  ]
+  org_id           = 1
+  name             = "pod_not_ready"
+  folder_uid       = "edlxveq50veo0c"
+  interval_seconds = 60
+
+  rule {
+    name      = "Pod not ready"
+    condition = "C"
+
+    data {
+      ref_id = "A"
+
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+
+      datasource_uid = "PBFA97CFB590B2093"
+      model          = "{\"editorMode\":\"code\",\"expr\":\"kube_pod_status_ready{condition=\\\"false\\\"} \\u003e 0\",\"instant\":true,\"intervalMs\":1000,\"legendFormat\":\"__auto\",\"maxDataPoints\":43200,\"range\":false,\"refId\":\"A\"}"
+    }
+    data {
+      ref_id = "B"
+
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+
+      datasource_uid = "__expr__"
+      model          = "{\"conditions\":[{\"evaluator\":{\"params\":[],\"type\":\"gt\"},\"operator\":{\"type\":\"and\"},\"query\":{\"params\":[\"B\"]},\"reducer\":{\"params\":[],\"type\":\"last\"},\"type\":\"query\"}],\"datasource\":{\"type\":\"__expr__\",\"uid\":\"__expr__\"},\"expression\":\"A\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"reducer\":\"mean\",\"refId\":\"B\",\"type\":\"reduce\"}"
+    }
+    data {
+      ref_id = "C"
+
+      relative_time_range {
+        from = 300
+        to   = 0
+      }
+
+      datasource_uid = "__expr__"
+      model          = "{\"conditions\":[{\"evaluator\":{\"params\":[0],\"type\":\"gt\"},\"operator\":{\"type\":\"and\"},\"query\":{\"params\":[\"C\"]},\"reducer\":{\"params\":[],\"type\":\"last\"},\"type\":\"query\"}],\"datasource\":{\"type\":\"__expr__\",\"uid\":\"__expr__\"},\"expression\":\"B\",\"intervalMs\":1000,\"maxDataPoints\":43200,\"refId\":\"C\",\"type\":\"threshold\"}"
+    }
+
+    no_data_state  = "NoData"
+    exec_err_state = "Error"
+    for            = "5m"
+    annotations = {
+      __dashboardUid__ = "cdlpol5hdssg0c"
+      __panelId__      = "45"
+    }
+    labels    = {}
     is_paused = false
   }
 }

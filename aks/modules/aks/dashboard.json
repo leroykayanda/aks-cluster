@@ -20,7 +20,7 @@
     "fiscalYearStartMonth": 0,
     "gnetId": 315,
     "graphTooltip": 0,
-    "id": 1,
+    "id": 2,
     "links": [],
     "panels": [
         {
@@ -2088,118 +2088,12 @@
             "type": "timeseries"
         },
         {
-            "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-            },
-            "fieldConfig": {
-                "defaults": {
-                    "color": {
-                        "mode": "palette-classic"
-                    },
-                    "custom": {
-                        "axisBorderShow": false,
-                        "axisCenteredZero": false,
-                        "axisColorMode": "text",
-                        "axisLabel": "Pods",
-                        "axisPlacement": "auto",
-                        "barAlignment": 0,
-                        "drawStyle": "line",
-                        "fillOpacity": 25,
-                        "gradientMode": "opacity",
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
-                        "insertNulls": false,
-                        "lineInterpolation": "smooth",
-                        "lineStyle": {
-                            "fill": "solid"
-                        },
-                        "lineWidth": 2,
-                        "pointSize": 5,
-                        "scaleDistribution": {
-                            "type": "linear"
-                        },
-                        "showPoints": "never",
-                        "spanNulls": false,
-                        "stacking": {
-                            "group": "A",
-                            "mode": "none"
-                        },
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        }
-                    },
-                    "decimals": 2,
-                    "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            },
-                            {
-                                "color": "red",
-                                "value": 80
-                            }
-                        ]
-                    },
-                    "unit": "none"
-                },
-                "overrides": []
-            },
-            "gridPos": {
-                "h": 8,
-                "w": 12,
-                "x": 0,
-                "y": 71
-            },
-            "id": 58,
-            "options": {
-                "legend": {
-                    "calcs": [
-                        "max"
-                    ],
-                    "displayMode": "table",
-                    "placement": "right",
-                    "showLegend": true,
-                    "sortBy": "Max",
-                    "sortDesc": true
-                },
-                "tooltip": {
-                    "mode": "single",
-                    "sort": "none"
-                }
-            },
-            "pluginVersion": "8.3.3",
-            "targets": [
-                {
-                    "datasource": {
-                        "type": "prometheus",
-                        "uid": "${datasource}"
-                    },
-                    "editorMode": "code",
-                    "exemplar": true,
-                    "expr": "count by (namespace) (kube_pod_info)",
-                    "interval": "30s",
-                    "legendFormat": "{{ namespace }}",
-                    "range": true,
-                    "refId": "A"
-                }
-            ],
-            "title": "Pods per namespace",
-            "type": "timeseries"
-        },
-        {
             "collapsed": false,
             "gridPos": {
                 "h": 1,
                 "w": 24,
                 "x": 0,
-                "y": 79
+                "y": 71
             },
             "id": 37,
             "panels": [],
@@ -2434,7 +2328,7 @@
                 "h": 6,
                 "w": 24,
                 "x": 0,
-                "y": 80
+                "y": 72
             },
             "id": 36,
             "interval": "",
@@ -2625,6 +2519,6 @@
     "timezone": "browser",
     "title": "Kubernetes Dashboard",
     "uid": "cdlpol5hdssg0c",
-    "version": 1,
+    "version": 3,
     "weekStart": ""
 }

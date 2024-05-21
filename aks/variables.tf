@@ -54,8 +54,8 @@ variable "default_node_pool" {
       agents_pool_name          = "workers"
       agents_size               = "Standard_B4als_v2"
       enable_auto_scaling       = true
-      agents_min_count          = 1
-      agents_max_count          = 2
+      agents_min_count          = 2
+      agents_max_count          = 3
       os_disk_size_gb           = 100
       agents_availability_zones = [1, 2]
       agents_count              = null
@@ -225,8 +225,8 @@ variable "elastic" {
   type = any
   default = {
     "dev" = {
-      replicas           = 1
-      minimumMasterNodes = 1
+      replicas           = 2
+      minimumMasterNodes = 2
       pv_storage         = "5Gi"
     }
   }
@@ -279,32 +279,24 @@ variable "argo_ssh_private_key" {
   type        = string
 }
 
-# variable "argo_slack_token" {
-#   type        = string
-#   default     = "xoxb-redacted"
-#   description = "Used by ArgoCD notifications to send alerts to Slack"
-# }
+variable "argo_slack_token" {
+  type        = string
+  default     = "xoxb-redacted"
+  description = "Used by ArgoCD notifications to send alerts to Slack"
+}
 
-# variable "argocd_image_updater_values" {
-#   type        = list(string)
-#   description = "specifies authentication details needed by argocd image updater"
-#   default = [
-#     <<EOF
-# config:
-#   registries:
-#     - name: ECR
-#       api_url: https://735265414519.dkr.ecr.eu-west-1.amazonaws.com
-#       prefix: 735265414519.dkr.ecr.eu-west-1.amazonaws.com
-#       ping: yes
-#       insecure: no
-#       credentials: ext:/scripts/ecr-login.sh
-#       credsexpire: 9h
-# authScripts:
-#   enabled: true
-#   scripts:
-#     ecr-login.sh: |
-#       #!/bin/sh
-#       aws ecr --region eu-west-1 get-authorization-token --output text --query 'authorizationData[].authorizationToken' | base64 -d
-# EOF
-#   ]
-# }
+variable "argocd_image_updater_values" {
+  type        = list(string)
+  description = "specifies authentication details needed by argocd image updater"
+  default = [
+    <<EOF
+config:
+  registries:
+    - name: ACR demo-app
+      api_url: https://devdemoapp.azurecr.io
+      prefix: devdemoapp.azurecr.io
+      ping: yes
+      credentials: pullsecret:argocd/argocd-image-updater-acr-demo-app
+EOF
+  ]
+}

@@ -50,8 +50,8 @@ variable "argo_annotations" {
   default = {
     "dev" = {
       "notifications.argoproj.io/subscribe.on-health-degraded.slack" = "rentrahisi"
-      "argocd-image-updater.argoproj.io/image-list"                  = "repo=735265414519.dkr.ecr.eu-west-1.amazonaws.com/dev-demo-app"
-      "argocd-image-updater.argoproj.io/repo.update-strategy"        = "latest"
+      "argocd-image-updater.argoproj.io/image-list"                  = "repo=devdemoapp.azurecr.io/devdemoapp"
+      "argocd-image-updater.argoproj.io/repo.update-strategy"        = "newest-build"
       "argocd-image-updater.argoproj.io/myimage.ignore-tags"         = "latest"
     },
     "prod" = {
