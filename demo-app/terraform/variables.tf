@@ -65,7 +65,6 @@ variable "argocd" {
     "dev" = {
       repo_url        = "git@github.com:leroykayanda/aks-cluster.git"
       target_revision = "main"
-      release_name    = "demo-app"
       path            = "demo-app/helm-charts/app"
       server          = "dev-argocd.azure.rentrahisi.co.ke:443"
       value_files = [

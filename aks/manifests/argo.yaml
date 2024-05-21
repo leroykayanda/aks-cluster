@@ -29,6 +29,7 @@ spec:
     automated:
       prune: true
       selfHeal: true
+      allow_empty: false
   ignoreDifferences:
   - group: apps
     kind: Deployment

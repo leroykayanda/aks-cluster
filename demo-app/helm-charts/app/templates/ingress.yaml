@@ -1,13 +1,4 @@
 {{- if .Values.ingress.enabled }}
-apiVersion: v1
-kind: Secret
-metadata:
-  name: "{{ .Release.Name }}-tls-cert"
-type: kubernetes.io/tls
-stringData:
-  tls.key: ""
-  tls.crt: ""
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

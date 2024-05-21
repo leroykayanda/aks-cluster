@@ -105,7 +105,7 @@ resource "argocd_application" "argo" {
       target_revision = var.argocd[var.env]["target_revision"]
       path            = var.argocd[var.env]["path"]
       helm {
-        release_name = var.argocd[var.env]["release_name"]
+        release_name = var.service
         value_files  = var.argocd[var.env]["value_files"]
       }
     }
@@ -131,6 +131,26 @@ resource "argocd_application" "argo" {
       kind          = "Deployment"
       json_pointers = ["/spec/replicas"]
     }
+  }
+}
+
+# letsencrypt secret
+
+resource "kubernetes_secret" "tls" {
+  metadata {
+    name      = "${var.service}-tls-cert"
+    namespace = var.service
+  }
+
+  type = "kubernetes.io/tls"
+
+  data = {
+    "tls.key" = ""
+    "tls.crt" = ""
+  }
+
+  lifecycle {
+    ignore_changes = [metadata]
   }
 }
 
