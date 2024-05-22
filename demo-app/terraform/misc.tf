@@ -134,6 +134,10 @@ resource "argocd_application" "argo" {
   }
 }
 
+# central helm chart repo
+# https://stackoverflow.com/questions/77949889/argocd-multiple-sources-for-a-helm-chart
+# https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/#helm-value-files-from-external-git-repository
+
 # letsencrypt secret
 
 resource "kubernetes_secret" "tls" {
