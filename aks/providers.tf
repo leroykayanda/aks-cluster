@@ -26,3 +26,11 @@ provider "helm" {
     cluster_ca_certificate = var.cluster_created[var.env] || var.cluster_not_terminated[var.env] ? base64decode(data.azurerm_kubernetes_cluster.cluster[0].kube_admin_config.0.cluster_ca_certificate) : ""
   }
 }
+
+provider "kubectl" {
+  host                   = var.cluster_created[var.env] || var.cluster_not_terminated[var.env] ? data.azurerm_kubernetes_cluster.cluster[0].kube_admin_config.0.host : ""
+  client_certificate     = var.cluster_created[var.env] || var.cluster_not_terminated[var.env] ? base64decode(data.azurerm_kubernetes_cluster.cluster[0].kube_admin_config.0.client_certificate) : ""
+  client_key             = var.cluster_created[var.env] || var.cluster_not_terminated[var.env] ? base64decode(data.azurerm_kubernetes_cluster.cluster[0].kube_admin_config.0.client_key) : ""
+  cluster_ca_certificate = var.cluster_created[var.env] || var.cluster_not_terminated[var.env] ? base64decode(data.azurerm_kubernetes_cluster.cluster[0].kube_admin_config.0.cluster_ca_certificate) : ""
+  load_config_file       = false
+}

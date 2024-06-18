@@ -1,0 +1,62 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azure-file-share
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+provisioner: file.csi.azure.com
+volumeBindingMode: WaitForFirstConsumer 
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+mountOptions:
+ - dir_mode=0777
+ - file_mode=0777
+ - uid=0
+ - gid=0
+ - mfsymlinks
+ - cache=strict
+ - actimeo=30
+parameters:
+  skuName: Standard_ZRS
+  shareName: pod-fileshare
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: demo-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: azure-file-share
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example-container
+        image: nginx
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "200Mi"
+        volumeMounts:
+          - mountPath: /data
+            name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: demo-pvc

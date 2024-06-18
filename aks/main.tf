@@ -12,13 +12,19 @@ module "network" {
   subnet_prefixes     = var.subnet_prefixes[var.env]
   subnet_names        = ["private", "public"]
   use_for_each        = true
+
+  depends_on = [
+    azurerm_resource_group.rg
+  ]
 }
 
 module "aks" {
-  source                            = "./modules/aks"
+  source                            = "app.terraform.io/RentRahisi/modules/cloud//azure/aks"
+  version                           = "1.2.13"
   resource_group_name               = azurerm_resource_group.rg.name
   env                               = var.env
   cluster_name                      = "${var.env}-${var.cluster_name}"
+  kubernetes_version                = var.kubernetes_version[var.env]
   prefix                            = var.env
   role_based_access_control_enabled = true
   vnet_subnet_id                    = module.network.vnet_subnets[0]
@@ -43,6 +49,7 @@ module "aks" {
   cluster_created                   = var.cluster_created[var.env]
   letsencrypt_email                 = var.letsencrypt_email
   letsencrypt_environment           = var.letsencrypt_environment[var.env]
+  node_pools                        = var.node_pools[var.env]
   elastic                           = var.elastic[var.env]
   elastic_password                  = var.elastic_password
   kibana                            = var.kibana[var.env]
@@ -60,5 +67,10 @@ module "aks" {
     kubernetes = kubernetes
     helm       = helm
     grafana    = grafana
+    kubectl    = kubectl
   }
+
+  depends_on = [
+    azurerm_resource_group.rg
+  ]
 }

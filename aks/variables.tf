@@ -28,7 +28,7 @@ variable "subnet_prefixes" {
   type = map(list(string))
   default = {
     "dev"  = ["10.0.0.0/20", "10.0.16.0/20"]
-    "prod" = ["10.1.32.0/20", "10.1.48.0/20"]
+    "prod" = ["10.1.0.0/20", "10.1.16.0/20"]
   }
 }
 
@@ -37,7 +37,7 @@ variable "subnet_prefixes" {
 variable "cluster_created" {
   description = "create applications such as argocd only when the eks cluster has already been created"
   default = {
-    "dev"  = false
+    "dev"  = true
     "prod" = false
   }
 }
@@ -51,22 +51,56 @@ variable "cluster_not_terminated" {
 
 variable "cluster_name" {
   type    = string
-  default = "compute"
+  default = "services"
+}
+
+variable "kubernetes_version" {
+  default = {
+    "dev"  = null
+    "prod" = ""
+  }
 }
 
 variable "default_node_pool" {
   type = any
   default = {
     "dev" = {
-      agents_pool_name          = "workers"
-      agents_size               = "Standard_B4als_v2"
+      agents_pool_name          = "initial"
+      agents_size               = "Standard_B2als_v2"
       enable_auto_scaling       = true
-      agents_min_count          = 2
-      agents_max_count          = 3
+      agents_min_count          = 1
+      agents_max_count          = 2
       os_disk_size_gb           = 100
       agents_availability_zones = [1, 2]
       agents_count              = null
-      agents_max_pods           = 50
+      agents_max_pods           = 100
+    }
+  }
+}
+
+variable "node_pools" {
+  type = any
+  default = {
+    "dev" = {
+      critical = {
+        node_count = 2
+        mode       = "User"
+        name       = "critical"
+        vm_size    = "Standard_B2as_v2"
+        zones      = [1, 2]
+        node_taints = [
+          "priority=critical:NoSchedule"
+        ]
+        node_labels = {
+          priority = "critical"
+        }
+        cluster_auto_scaling           = false
+        cluster_auto_scaling_min_count = null
+        cluster_auto_scaling_max_count = null
+        max_pods                       = 100
+        os_disk_size_gb                = 100
+        vnet_subnet_id                 = "/subscriptions/c085b75e-f9b6-4506-8d25-60a3f6a5447e/resourceGroups/aks-dev/providers/Microsoft.Network/virtualNetworks/dev/subnets/private"
+      }
     }
   }
 }
@@ -87,7 +121,7 @@ variable "automatic_channel_upgrade" {
   type = map(string)
   default = {
     "dev"  = "stable"
-    "prod" = null
+    "prod" = "none"
   }
 }
 
@@ -189,12 +223,6 @@ variable "gateway_autoscaling" {
     "min_capacity" = 1
     "max_capacity" = 20
   }
-}
-
-variable "letsencrypt_envir" {
-  type        = list(string)
-  description = "IDs of admin users"
-  default     = ["d8c3537f-4698-4d55-b1fd-2c4ea671a5ae"]
 }
 
 variable "letsencrypt_email" {
