@@ -282,6 +282,7 @@ variable "prometheus" {
     "dev" = {
       pv_storage = "10Gi"
       retention  = "30d"
+      dns_name   = "prometheus"
     }
   }
 }

@@ -40,7 +40,6 @@ resource "azurerm_federated_identity_credential" "federated_identity" {
 }
 
 // Give our managed identity some permissions
-data "azurerm_subscription" "current" {}
 
 resource "azurerm_role_assignment" "app_permissions" {
   scope                = data.azurerm_subscription.current.id

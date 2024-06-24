@@ -20,7 +20,7 @@ module "network" {
 
 module "aks" {
   source                            = "app.terraform.io/RentRahisi/modules/cloud//azure/aks"
-  version                           = "1.2.13"
+  version                           = "1.2.34"
   resource_group_name               = azurerm_resource_group.rg.name
   env                               = var.env
   cluster_name                      = "${var.env}-${var.cluster_name}"

@@ -16,3 +16,5 @@ data "azurerm_kubernetes_cluster" "cluster" {
   name                = "${var.env}-${var.cluster_name}"
   resource_group_name = var.resource_group[var.env]
 }
+
+data "azurerm_subscription" "current" {}

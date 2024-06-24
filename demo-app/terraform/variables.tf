@@ -27,7 +27,7 @@ variable "env" {
 # k8s
 variable "cluster_name" {
   type    = string
-  default = "compute"
+  default = "services"
 }
 
 # ACR 
@@ -72,14 +72,5 @@ variable "argocd" {
         "../dev-values.yaml"
       ]
     }
-  }
-}
-
-variable "argo_path" {
-  type        = map(string)
-  description = "path of the manifest files"
-  default = {
-    "dev"  = "demo-app/helm-charts/app"
-    "prod" = ""
   }
 }
