@@ -11,6 +11,12 @@ resource "azurerm_key_vault" "kv" {
   public_network_access_enabled = true
 }
 
+resource "azurerm_key_vault_secret" "secret" {
+  name         = "FOO"
+  value        = "BAR"
+  key_vault_id = azurerm_key_vault.kv.id
+}
+
 # app namespace
 resource "kubernetes_namespace" "ns" {
   metadata {
