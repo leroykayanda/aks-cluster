@@ -20,14 +20,14 @@ Set up these environment variables in terraform cloud.
  - Set up a terraform cloud workspace named azure-demo-app-dev 
  - Attach the variable set containing azure credentials.
  - Navigate to the demo-app/terraform folder
- - set up backend.tf, variables.tf & providers.tf with values suitable for your environment.
+ - Set up backend.tf, variables.tf & providers.tf with values suitable for your environment.
  - Run terraform apply to create key vault, the app namespace, set up workload identity, the app's DNS record, ACR. Verify these components have been created.
  - Modify `argocd_image_updater_values` in aks/variables.tf and add the details of the ACR repo that has been created under registries.
 
 
 **Pipeline setup**
 - We use github actions to push an image to ACR. ArgoCD will detect this new image and trigger a new deployment.
-- set up these repository secrets in github.
+- Set up these repository secrets in github.
 
 1. ACR_LOGIN_SERVER
 2. ACR_USERNAME
@@ -46,11 +46,11 @@ Verify these components have been created
 - HPA
 
 Also verify that
-- the app can be accessed via its domain name
-- the app can access secrets manager secrets
-- an argocd application has been created
--  argocd notifications are working and notifications are being sent to slack. To post to Slack, the app you create needs chat:write and incoming-webhook permissions. You also need to add the app to the slack channel.
--  argocd image updater triggers a deployment when an image is pushed to ACR
+- The app can be accessed via its domain name
+- The app can access secrets manager secrets
+- An argocd application has been created
+-  Argocd notifications are working and notifications are being sent to slack. To post to Slack, the app you create needs chat:write and incoming-webhook permissions. You also need to add the app to the slack channel.
+-  Argocd image updater triggers a deployment when an image is pushed to ACR
 
 **Helm Cmds**
 
