@@ -12,6 +12,7 @@
 
 
 **Setup**
+
 Set up these environment variables in terraform cloud.
 1. env
 2. ARGOCD_AUTH_USERNAME 

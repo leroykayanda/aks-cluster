@@ -37,7 +37,7 @@ variable "subnet_prefixes" {
 variable "cluster_created" {
   description = "create applications such as argocd only when the eks cluster has already been created"
   default = {
-    "dev"  = true
+    "dev"  = false
     "prod" = false
   }
 }
